@@ -54,3 +54,10 @@ I used a YUNGUI 15X18.5 cm Solderable Breadboard, Yohii Pin Header Single Row 2.
 All the discrete boards were made pluggable for easy replacement.
 
 I also used board to wire disconnects to detach the cover if I want. but you do not have to.
+
+
+
+![image](https://github.com/roberttucci/Sprinkler-Project-V2/assets/88236450/cb6379f6-dcff-4ee2-9a70-21d18ec6385a)
+
+
+
