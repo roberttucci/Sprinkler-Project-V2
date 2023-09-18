@@ -1,0 +1,7 @@
+    - platform: template
+    sensors:
+      enc12v_valve_time_convert:
+        friendly_name: V Time Convert
+        value_template: >-
+          {% set s = states('sensor.enc12v_irrigation_time_remaining_sensor')|int %} //use your home assistant entity for time remaining
+          {{ s | timestamp_custom("%M:%S") }}   
