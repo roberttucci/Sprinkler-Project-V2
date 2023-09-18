@@ -1,0 +1,1325 @@
+substitutions: 
+  enc_id: esp32_12v_4
+
+esphome:
+  name: "esp32-enc12v-4"
+  friendly_name: "esp32-enc12v-4"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger: 
+
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "ZA/O3zt4Xn0UiAs7uE/FYPtb5Qu4vwJWJVy/Lf52+2Y="
+
+ota:
+  password: "19c3bb0e70f0967787f96e94b13e1122"
+
+wifi:
+  manual_ip:
+    static_ip: 172.16.1.8
+    gateway: 172.16.1.1
+    subnet: 255.255.255.0
+  
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Esp32-Ant-Test5 Fallback Hotspot"
+    password: "T0Bd8cZEUjJj"
+font:
+  - file: "Roboto-Regular.ttf"
+    id: my_font
+    size: 18
+  - file: "Roboto-Regular.ttf"
+    id: my_font_2
+    size: 18
+  - file: "Roboto-Medium.ttf"
+    id: my_font_2m
+    size: 18
+
+
+  - file: "Roboto-Regular.ttf"
+    id: my_font_3
+    size: 12
+  - file: "Roboto-Regular.ttf"
+    id: my_font_5
+    size: 14
+  - file: "Roboto-Regular.ttf"
+    id: my_font_4
+    size: 36
+  - file: "Roboto-Regular.ttf"
+    id: my_font_6
+    size: 10
+  - file: "Roboto-Regular.ttf"
+    id: my_font_7
+    size: 24
+  - file: "Roboto-Regular.ttf"
+    id: my_font_8
+    size: 30
+  - file: "Roboto-Regular.ttf"
+    id: my_font_10
+    size: 10
+  - file: "Roboto-Medium.ttf"
+    id: my_font_10m
+    size: 10
+
+
+color:
+  - id: my_red
+    red: 100%
+    green: 20%
+    blue: 25%
+    white: 0%
+  - id: my_white
+    white: 100%
+    blue: 5%
+    red: 55%
+    green: 35%
+  - id: my_blue
+    blue: 100%
+  - id: my_green
+    green: 100%
+  - id: my_blue_bold
+    blue: 100%
+ #-------------------------------------------------------------  
+captive_portal:
+    
+# ------------------------------------------------------   
+time:
+  - platform: homeassistant
+    id: esptime
+# ------------------------------------------------------
+# ------------------------------------------------------
+spi:
+  - id: first
+    clk_pin: GPIO18
+    mosi_pin: GPIO23  
+    miso_pin: GPIO19  
+
+  - id: second
+    clk_pin: GPIO14
+    mosi_pin: GPIO13
+    miso_pin: GPIO12
+
+i2c:
+  - id: bus_a
+    sda: GPIO25
+    scl: GPIO26
+    scan: true 
+
+tca9548a :
+  - address: 0x70
+    id: multiplex0
+    i2c_id: bus_a
+    channels:
+      - bus_id: multiplex0channel0
+        channel: 0
+      - bus_id: multiplex0channel1
+        channel: 1
+      - bus_id: multiplex0channel2
+        channel: 2
+      - bus_id: multiplex0channel3
+        channel: 3
+      - bus_id: multiplex0channel4
+        channel: 4
+      - bus_id: multiplex0channel5
+        channel: 5
+      - bus_id: multiplex0channel6
+        channel: 6
+      - bus_id: multiplex0channel7
+        channel: 7
+
+pcf8574:
+  - id: 'pcf8574_hub'
+    i2c_id: bus_a
+    address: 0x20
+    pcf8575: true
+
+  - id: 'pcf8574_hub_2'
+    i2c_id: bus_a
+    address: 0x27
+    pcf8575: true
+
+
+
+#--------------------------------------------------------
+#--------------------------------------------------------
+sensor:
+  
+  - platform: ina219
+    i2c_id: multiplex0channel0
+    address: 0x40
+    shunt_resistance: 0.1 ohm
+    current:
+      name: "INA219 Current ${enc_id}-0"
+      id: ${enc_id}_ina219_current0
+    power:
+      name: "INA219 Power ${enc_id}-0"
+      id: ${enc_id}_ina219_power0
+    bus_voltage:
+      name: "INA219 Bus Voltage ${enc_id}-0"
+      id: ${enc_id}_ina219_bus_v0
+    shunt_voltage:
+      name: "INA219 Shunt Voltage ${enc_id}-0"
+      id: ${enc_id}_ina219_shunt_v0
+    max_voltage: 8.0V
+    max_current: 3.2A
+    update_interval: 60s
+
+  - platform: ina219
+    i2c_id: multiplex0channel1
+    address: 0x40
+    shunt_resistance: 0.1 ohm
+    current:
+      name: "INA219 Current ${enc_id}-1"
+      id: ${enc_id}_ina219_current1
+    power:
+      name: "INA219 Power ${enc_id}-1"
+      id: ${enc_id}_ina219_power1
+    bus_voltage:
+      name: "INA219 Bus Voltage ${enc_id}-1"
+      id: ${enc_id}_ina219_bus_v1
+    shunt_voltage:
+      name: "INA219 Shunt Voltage ${enc_id}-1"
+      id: ${enc_id}_ina219_shunt_v1
+    max_voltage: 12.8V
+    max_current: 3.2A
+    update_interval: 60s  
+
+
+# ------------------------------------------------------
+# ------------------------------------------------------
+  - platform: template
+    name: "${enc_id} Irrigation Time Remaining Sensor"
+    unit_of_measurement: 'Sec'
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).time_remaining_active_valve().value();"
+    update_interval: 1s 
+    accuracy_decimals: 0
+  - platform: template
+    name: "${enc_id} Irrigation Active Valve"
+    id: active_valve
+    accuracy_decimals: 0
+    lambda: |-
+     if (id(${enc_id}_lawn_sprinkler_ctrlr).active_valve().has_value()){
+      auto active_valve = id(${enc_id}_lawn_sprinkler_ctrlr).active_valve().value() + 1;
+      return active_valve;
+      }else{
+        return 0;
+      }
+    update_interval: 5s
+#-------------------------------------------------------------
+#-------------------------------------------------------------
+# ------------------------------------------------------
+
+  - platform: internal_temperature
+    name: "${enc_id}-Internal Temperature"
+    id: internal_cpu
+    unit_of_measurement: "°C"
+    update_interval: 10s
+#--------------------------------------------------------
+#--------------------------------------------------------
+  - platform: wifi_signal
+    name: "${enc_id} WiFi Signal Sensor"
+    id: my_wifi_2
+    update_interval: 60s
+#--------------------------------------------------------
+#--------------------------------------------------------
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      id: myip_2
+      name: ${enc_id} ESP IP Address
+    ssid:
+      id: myssid_2
+      name: ${enc_id} ESP Connected SSID
+#--------------------------------------------------------
+#--------------------------------------------------------
+button:
+  - platform: restart
+    name: "ESP32 Restart"
+    id: restart_button
+#--------------------------------------------------------
+#--------------------------------------------------------
+#-------------------------------------------------------------
+#-------------------------------------------------------------
+
+
+
+
+sprinkler:
+  - id: ${enc_id}_lawn_sprinkler_ctrlr
+    main_switch: "${enc_id}_Lawn Sprinklers"
+    auto_advance_switch: "enc12v_Lawn Sprinklers Auto Advance"
+    reverse_switch: "${enc_id}_Lawn Sprinklers Reverse"
+    valve_overlap: 3s
+    pump_start_valve_delay: 10s
+    valves:
+      - valve_switch: "${enc_id}_Front Lawn 1"
+        enable_switch: "${enc_id}_Enable Front Lawn 1"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw0
+      - valve_switch: "${enc_id}_Front Lawn 2"
+        enable_switch: "${enc_id}_Enable Front Lawn 2"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw1
+      - valve_switch: "${enc_id}_Front Lawn 3"
+        enable_switch: "${enc_id}_Enable Front Lawn 3"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw2
+#-------------------------------------------------------------
+      - valve_switch: "${enc_id}_Front Lawn 4"
+        enable_switch: "${enc_id}_Enable Front Lawn 4"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw3
+      - valve_switch: "${enc_id}_Front Lawn 5"
+        enable_switch: "${enc_id}_Enable Front Lawn 5"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw4
+      - valve_switch: "${enc_id}_Front Lawn 6"
+        enable_switch: "${enc_id}_Enable Front Lawn 6"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw5
+#-------------------------------------------------------------
+      - valve_switch: "${enc_id}_Front Lawn 7"
+        enable_switch: "${enc_id}_Enable Front Lawn 7"
+        pump_switch_id: ${enc_id}_dpdt2
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw6
+      - valve_switch: "${enc_id}_Front Lawn 8"
+        enable_switch: "${enc_id}_Enable Front Lawn 8"
+        pump_switch_id: ${enc_id}_dpdt2
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw7
+      - valve_switch: "${enc_id}_Front Lawn 9"
+        enable_switch: "${enc_id}_Enable Front Lawn 9"
+        pump_switch_id: ${enc_id}_dpdt2
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw8
+#-------------------------------------------------------------
+      - valve_switch: "${enc_id}_Front Lawn 10"
+        enable_switch: "${enc_id}_Enable Front Lawn 10"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw9
+      - valve_switch: "${enc_id}_Front Lawn 11"
+        enable_switch: "${enc_id}_Enable Front Lawn 11"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw10
+      - valve_switch: "${enc_id}_Front Lawn 12"
+        enable_switch: "${enc_id}_Enable Front Lawn 12"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw11
+#-------------------------------------------------------------
+      - valve_switch: "${enc_id}_Front Lawn 13"
+        enable_switch: "${enc_id}_Enable Front Lawn 13"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw12
+      - valve_switch: "${enc_id}_Front Lawn 14"
+        enable_switch: "${enc_id}_Enable Front Lawn 14"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw13
+      - valve_switch: "${enc_id}_Front Lawn 15"
+        enable_switch: "${enc_id}_Enable Front Lawn 15"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw14
+#-------------------------------------------------------------
+      - valve_switch: "${enc_id}_Front Lawn 16"
+        enable_switch: "${enc_id}_Enable Front Lawn 16"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw15
+      - valve_switch: "${enc_id}_Front Lawn 17"
+        enable_switch: "${enc_id}_Enable Front Lawn 17"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw16
+      - valve_switch: "${enc_id}_Front Lawn 18"
+        enable_switch: "${enc_id}_Enable Front Lawn 18"
+        pump_switch_id: ${enc_id}_dpdt1
+        run_duration: 300s
+        valve_switch_id: lawn_sprinkler_valve_sw17
+
+#-------------------------------------------------------------
+#-------------------------------------------------------------
+# Configuration to set multiplier via number
+number:
+  - platform: template
+    id: ${enc_id}_sprinkler_ctrlr_multiplier
+    name: "${enc_id}_Sprinkler Controller Multiplier"
+    min_value: 1.0
+    max_value: 5.0
+    step: 1.0
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).multiplier();"
+    set_action:
+      - sprinkler.set_multiplier:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          multiplier: !lambda 'return x;'
+    update_interval: 5s
+
+#-------------------------------------------------------------
+#-------------------------------------------------------------
+
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_1
+    name: "${enc_id} Sprinkler Valve Duration 1"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(0);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 0
+          run_duration: !lambda 'return x;'
+
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_2
+    name: "${enc_id} Sprinkler Valve Duration 2"
+    min_value: 300
+    max_value: 1200
+    update_interval: 5s
+    step: 60
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(1);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 1
+          run_duration: !lambda 'return x;'
+
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_3
+    name: "${enc_id} Sprinkler Valve Duration 3"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(2);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 2
+          run_duration: !lambda 'return x;'
+
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_4
+    name: "${enc_id} Sprinkler Valve Duration 4"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(3);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 3
+          run_duration: !lambda 'return x;'
+
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_5
+    name: "${enc_id} Sprinkler Valve Duration 5"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(4);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 4
+          run_duration: !lambda 'return x;'
+
+
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_6
+    name: "${enc_id} Sprinkler Valve Duration 6"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(5);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 5
+          run_duration: !lambda 'return x;'
+#-------------------------------------------------------------
+#-------------------------------------------------------------
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_7
+    name: "${enc_id} Sprinkler Valve Duration 7"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(6);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 6
+          run_duration: !lambda 'return x;'
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_8
+    name: "${enc_id} Sprinkler Valve Duration 8"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(7);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 7
+          run_duration: !lambda 'return x;'
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_9
+    name: "${enc_id} Sprinkler Valve Duration 9"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(8);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 8
+          run_duration: !lambda 'return x;'
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_10
+    name: "${enc_id} Sprinkler Valve Duration 10"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(9);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 9
+          run_duration: !lambda 'return x;'
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_11
+    name: "${enc_id} Sprinkler Valve Duration 11"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(10);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 10
+          run_duration: !lambda 'return x;'
+
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_12
+    name: "${enc_id} Sprinkler Valve Duration 12"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(11);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 11
+          run_duration: !lambda 'return x;'
+#-------------------------------------------------------------
+#-------------------------------------------------------------
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_13
+    name: "${enc_id} Sprinkler Valve Duration 13"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(12);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 12
+          run_duration: !lambda 'return x;'
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_14
+    name: "${enc_id} Sprinkler Valve Duration 14"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(13);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 13
+          run_duration: !lambda 'return x;'
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_15
+    name: "${enc_id} Sprinkler Valve Duration 15"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(14);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 14
+          run_duration: !lambda 'return x;'
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_16
+    name: "${enc_id} Sprinkler Valve Duration 16"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(15);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 15
+          run_duration: !lambda 'return x;'
+
+
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_17
+    name: "${enc_id} Sprinkler Valve Duration 17"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(16);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 14
+          run_duration: !lambda 'return x;'
+  - platform: template
+    id: sprinkler_ctrlr_duration_v_18
+    name: "${enc_id} Sprinkler Valve Duration 18"
+    min_value: 300
+    max_value: 1200
+    step: 60
+    update_interval: 5s
+    lambda: "return id(${enc_id}_lawn_sprinkler_ctrlr).valve_run_duration(17);"
+    set_action:
+      - sprinkler.set_valve_run_duration:
+          id: ${enc_id}_lawn_sprinkler_ctrlr
+          valve_number: 15
+          run_duration: !lambda 'return x;'
+#-------------------------------------------------------------
+#-------------------------------------------------
+binary_sensor:
+  - platform: homeassistant
+    id: mv1_off
+    entity_id: binary_sensor.esp32_enc12v_4_esp32_12v_4_mv1_off
+  - platform: homeassistant
+    id: mv1_on
+    entity_id: binary_sensor.esp32_enc12v_4_esp32_12v_4_mv1_on
+  - platform: homeassistant
+    id: mv2_off
+    entity_id: binary_sensor.esp32_enc12v_4_esp32_12v_4_mv2_off
+  - platform: homeassistant
+    id: mv2_on
+    entity_id: binary_sensor.esp32_enc12v_4_esp32_12v_4_mv2_on
+
+#-------------------------------------------------
+
+  - platform: gpio
+    name: "${enc_id}_MV1_Off"
+    publish_initial_state: true
+    internal: false
+    pin:
+      pcf8574: pcf8574_hub_2
+      number: 8
+      mode: INPUT
+      inverted: true
+  - platform: gpio
+    name: "${enc_id}_MV1_On"
+    publish_initial_state: true
+    internal: false
+    pin:
+      pcf8574: pcf8574_hub_2
+      number: 9
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${enc_id}_MV2_Off"
+    publish_initial_state: true
+    internal: false
+    pin:
+      pcf8574: pcf8574_hub_2
+      number: 10
+      mode: INPUT
+      inverted: true
+  - platform: gpio
+    name: "${enc_id}_MV2_On"
+    publish_initial_state: true
+    internal: false
+    pin:
+      pcf8574: pcf8574_hub_2
+      number: 11
+      mode: INPUT
+      inverted: true
+
+#-------------------------------------------------------------
+#--------------------------------------------------------
+#--------------------------------------------------------
+#-------------------------------------------------------------
+#--------------------------------------------------------
+#--------------------------------------------------------
+
+  - platform: touchscreen
+    id: touch_key0
+    x_min: 2
+    x_max: 50
+    y_min: 195
+    y_max: 230
+    on_press:
+      - logger.log: "Sprinkler Cycle On was touched"
+      - sprinkler.start_full_cycle: ${enc_id}_lawn_sprinkler_ctrlr
+  
+  - platform: touchscreen
+    id: touch_key1
+    x_min: 190
+    x_max: 240
+    y_min: 195
+    y_max: 230
+    on_press:
+      - logger.log: "CPU Reset was touched"
+      - lambda: id(restart_button).press();
+
+  - platform: touchscreen
+    id: touch_key2
+    x_min: 2
+    x_max: 50
+    y_min: 235
+    y_max: 270
+    on_press:
+      - logger.log: "Test Mains was touched"
+      - lambda: id(${enc_id}_dpdt1).turn_on();
+      - delay: 30s
+      - lambda: id(${enc_id}_dpdt2).turn_on();
+    on_release:
+      - delay: 30s
+      - lambda: id(${enc_id}_dpdt1).turn_off();
+      - delay: 30s
+      - lambda: id(${enc_id}_dpdt2).turn_off();
+
+
+
+  - platform: touchscreen
+    id: touch_key3
+    x_min: 190
+    x_max: 240
+    y_min: 235
+    y_max: 270
+    on_press:
+      - lambda: id(my_display_2).turn_on();
+      - lambda: id(my_display_3).turn_on();
+    on_release:
+      - delay: 30s
+      - lambda: id(my_display_2).turn_off();
+      - lambda: id(my_display_3).turn_off();
+
+
+
+#-------------------------------------------------------------
+#--------------------------------------------------------
+#--------------------------------------------------------
+#-------------------------------------------------------------
+#--------------------------------------------------------
+#--------------------------------------------------------
+
+switch:
+
+  - platform: output
+    output: gpio_33_backlight_pwm
+    name: "${enc_id}-ILI9341 Display Backlight"
+    id: back_light
+    restore_mode: ALWAYS_ON
+
+#-------------------------------------------------
+  - platform: gpio
+    id: ${enc_id}_dpdt1
+    name: "Main Valve Relay ${enc_id}-1"   
+    pin:
+      pcf8574: pcf8574_hub_2
+      number: 0
+      mode: OUTPUT
+      inverted: true
+  - platform: gpio
+    id: ${enc_id}_dpdt2
+    name: "Main Valve Relay ${enc_id}-2"   
+    pin:
+      pcf8574: pcf8574_hub_2
+      number: 1
+      mode: OUTPUT
+      inverted: true
+#-------------------------------------------------------------
+#------------------------------------------------------------
+
+
+
+
+#-------------------------------------------------
+  - platform: gpio
+    name: "${enc_id}-Valve1"
+    id: lawn_sprinkler_valve_sw0
+    pin:
+      pcf8574: pcf8574_hub
+      number: 8
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${enc_id}-Valve2"
+    id: lawn_sprinkler_valve_sw1
+    pin:
+      pcf8574: pcf8574_hub
+      number: 9
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${enc_id}-Valve3"
+    id: lawn_sprinkler_valve_sw2
+    pin:
+      pcf8574: pcf8574_hub
+      number: 10
+      mode: OUTPUT
+      inverted: true
+      
+  - platform: gpio
+    name: "${enc_id}-Valve4"
+    id: lawn_sprinkler_valve_sw3
+    pin:
+      pcf8574: pcf8574_hub
+      number: 11
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${enc_id}-Valve5"
+    id: lawn_sprinkler_valve_sw4
+    pin:
+      pcf8574: pcf8574_hub
+      number: 12
+      mode: OUTPUT
+      inverted: true
+      
+  - platform: gpio
+    name: "${enc_id}-Valve6"
+    id: lawn_sprinkler_valve_sw5
+    pin:
+      pcf8574: pcf8574_hub
+      number: 13
+      mode: OUTPUT
+      inverted: true
+#-------------------------------------------------
+#-------------------------------------------------
+  - platform: gpio
+    name: "${enc_id}-Valve7"
+    id: lawn_sprinkler_valve_sw6
+    pin:
+      pcf8574: pcf8574_hub
+      number: 14
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${enc_id}-Valve8"
+    id: lawn_sprinkler_valve_sw7
+    pin:
+      pcf8574: pcf8574_hub
+      number: 15
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${enc_id}-Valve9"
+    id: lawn_sprinkler_valve_sw8
+    pin:
+      pcf8574: pcf8574_hub_2
+      number: 6
+      mode: OUTPUT
+      inverted: true
+      
+  - platform: gpio
+    name: "${enc_id}-Valve10"
+    id: lawn_sprinkler_valve_sw9
+    pin:
+      pcf8574: pcf8574_hub_2
+      number: 7
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${enc_id}-Valve11"
+    id: lawn_sprinkler_valve_sw10
+    pin:
+      pcf8574: pcf8574_hub
+      number: 0
+      mode: OUTPUT
+      inverted: true
+      
+  - platform: gpio
+    name: "${enc_id}-Valve12"
+    id: lawn_sprinkler_valve_sw11
+    pin:
+      pcf8574: pcf8574_hub
+      number: 1
+      mode: OUTPUT
+      inverted: true
+#-------------------------------------------------
+  - platform: gpio
+    name: "${enc_id}-Valve13"
+    id: lawn_sprinkler_valve_sw12
+    pin:
+      pcf8574: pcf8574_hub
+      number: 2
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${enc_id}-Valve14"
+    id: lawn_sprinkler_valve_sw13
+    pin:
+      pcf8574: pcf8574_hub
+      number: 3
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${enc_id}-Valve15"
+    id: lawn_sprinkler_valve_sw14
+    pin:
+      pcf8574: pcf8574_hub
+      number: 4
+      mode: OUTPUT
+      inverted: true
+      
+  - platform: gpio
+    name: "${enc_id}-Valve16"
+    id: lawn_sprinkler_valve_sw15
+    pin:
+      pcf8574: pcf8574_hub
+      number: 5
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${enc_id}-Valve17"
+    id: lawn_sprinkler_valve_sw16
+    pin:
+      pcf8574: pcf8574_hub
+      number: 6
+      mode: OUTPUT
+      inverted: true
+      
+  - platform: gpio
+    name: "${enc_id}-Valve18"
+    id: lawn_sprinkler_valve_sw17
+    pin:
+      pcf8574: pcf8574_hub
+      number: 7
+      mode: OUTPUT
+      inverted: true
+#-------------------------------------------------
+#-------------------------------------------------
+
+
+
+output:
+  - platform: gpio
+    pin: GPIO33
+    id: gpio_33_backlight_pwm
+    inverted: False
+
+
+
+
+
+
+
+
+
+touchscreen:
+  spi_id: second
+  platform: xpt2046
+  display: my_tft
+  id: my_touchscreen
+  cs_pin: 17
+  interrupt_pin: 16
+  update_interval: 50ms
+  report_interval: 1s
+  threshold: 400
+  calibration_x_min: 265
+  calibration_x_max: 3868
+  calibration_y_min: 3863
+  calibration_y_max: 395 
+
+
+
+
+
+
+
+
+
+
+
+
+display:
+  - platform: ili9xxx
+    spi_id: first
+    id: my_tft
+    model: ili9341
+    rotation: 180
+    cs_pin: GPIO5
+    dc_pin: GPIO21
+    reset_pin: GPIO32
+    pages:
+      - id: page_tft_1
+        lambda: |-
+          it.fill(Color::BLACK);
+          auto white = Color(255, 255, 255);
+          auto yellow = Color(255, 255, 0);
+          auto blue = Color(0, 0, 255);
+          auto red = Color(255, 0, 0);
+          auto green = Color(0, 255, 0);
+          it.printf(20, 2, id(my_font_2m), yellow, "Zone Valve 1- 18 Status:");
+
+          it.printf(4, 25, id(my_font_5), "Z1:");
+          if (id(lawn_sprinkler_valve_sw0).state) {
+            it.filled_circle(33, 33, 5, green); 
+            }else{
+             it.circle(33, 33, 5, blue); 
+            }
+          it.printf(45, 65, id(my_font_5), "Z7:");
+          if (id(lawn_sprinkler_valve_sw6).state) {
+            it.filled_circle(74, 73, 5, green); 
+            }else{
+             it.circle(74, 73, 5, blue); 
+            }
+
+          it.printf(135, 25, id(my_font_5), "Z13:");
+          if (id(lawn_sprinkler_valve_sw12).state) {
+            it.filled_circle(171, 33, 5, green); 
+            }else{
+             it.circle(171, 33, 5, blue); 
+            }
+
+          it.printf(4, 45, id(my_font_5), "Z2:");
+          if (id(lawn_sprinkler_valve_sw1).state) {
+            it.filled_circle(33, 53, 5, green);
+            }else{
+             it.circle(33, 53, 5, blue); 
+            }
+          it.printf(45, 85, id(my_font_5), "Z8:");
+          if (id(lawn_sprinkler_valve_sw7).state) {
+            it.filled_circle(74, 93, 5, green);
+            }else{
+             it.circle(74, 93, 5, blue); 
+            }
+
+          it.printf(135, 45, id(my_font_5), "Z14:");
+          if (id(lawn_sprinkler_valve_sw13).state) {
+            it.filled_circle(171, 53, 5, green);
+            }else{
+             it.circle(171, 53, 5, blue); 
+            }
+
+          it.printf(4, 65, id(my_font_5), "Z3:");
+          if (id(lawn_sprinkler_valve_sw2).state) {
+            it.filled_circle(33, 73, 5, green);           
+            }else{
+             it.circle(33, 73, 5, blue);
+            }
+          it.printf(86, 25, id(my_font_5), "Z9:");
+          if (id(lawn_sprinkler_valve_sw8).state) {
+            it.filled_circle(122, 33, 5, green);           
+            }else{
+             it.circle(122, 33, 5, blue);
+            }
+
+          it.printf(135, 65, id(my_font_5), "Z15:");
+          if (id(lawn_sprinkler_valve_sw14).state) {
+            it.filled_circle(171, 73, 5, green);           
+            }else{
+             it.circle(171, 73, 5, blue);
+            }
+
+          it.printf(4, 85, id(my_font_5), "Z4:");
+          if (id(lawn_sprinkler_valve_sw3).state) {
+            it.filled_circle(33, 93, 5, green);
+            }else{
+             it.circle(33, 93, 5, blue);
+            }
+          it.printf(86, 45, id(my_font_5), "Z10:");
+          if (id(lawn_sprinkler_valve_sw9).state) {
+            it.filled_circle(122, 53, 5, green);
+            }else{
+             it.circle(122, 53, 5, blue);
+            }
+          it.printf(135, 85, id(my_font_5), "Z16:");
+          if (id(lawn_sprinkler_valve_sw15).state) {
+            it.filled_circle(171, 93, 5, green);
+            }else{
+             it.circle(171, 93, 5, blue);
+            }
+
+          it.printf(45, 25, id(my_font_5), "Z5:");
+          if (id(lawn_sprinkler_valve_sw4).state) {
+            it.filled_circle(74, 33, 5, green);
+            }else{
+             it.circle(74, 33, 5, blue);
+            }
+          it.printf(86, 65, id(my_font_5), "Z11:");
+          if (id(lawn_sprinkler_valve_sw10).state) {
+            it.filled_circle(122, 73, 5, green);
+            }else{
+             it.circle(122, 73, 5, blue);
+            }
+          it.printf(184, 25, id(my_font_5), "D1:");
+          if (id(lawn_sprinkler_valve_sw16).state) {
+            it.filled_circle(213, 33, 5, green);
+            }else{
+             it.circle(213, 33, 5, blue);
+            }
+
+          it.printf(45, 45, id(my_font_5), "Z6:");
+          if (id(lawn_sprinkler_valve_sw5).state) {
+            it.filled_circle(74, 53, 5, green);
+            }else{
+             it.circle(74, 53, 5, blue);
+            }
+          it.printf(86, 85, id(my_font_5), "Z12:");
+          if (id(lawn_sprinkler_valve_sw11).state) {
+            it.filled_circle(122, 93, 5, green);
+            }else{
+             it.circle(122, 93, 5, blue);
+            }
+          it.printf(184, 45, id(my_font_5), "D2:");
+          if (id(lawn_sprinkler_valve_sw17).state) {
+            it.filled_circle(213, 53, 5, green);
+            }else{
+             it.circle(213, 53, 5, blue);
+            }
+
+          it.filled_rectangle(0, 105, 240, 5, blue);
+
+
+          it.printf(0, 120, id(my_font_3), green, "   Main");
+          it.printf(0, 135, id(my_font_3), green, " Valve 1");
+          it.filled_rectangle(45, 126, 15, 5, yellow);
+          it.filled_rectangle(45, 141, 15, 5, yellow);        
+          it.filled_rectangle(60, 126, 7, 20, yellow);
+
+
+          it.printf(0, 155, id(my_font_3), green, "   Main");
+          it.printf(0, 170, id(my_font_3), green, " Valve 2");
+          it.filled_rectangle(45, 161, 15, 5, yellow);
+          it.filled_rectangle(45, 176, 15, 5, yellow);        
+          it.filled_rectangle(60, 161, 7, 20, yellow);
+
+
+          if (id(${enc_id}_dpdt1).state) {
+          it.filled_rectangle(68, 132, 15, 7, green);
+          it.printf(85, 127, id(my_font_5), green, "Relay On");
+          } else {
+          it.filled_rectangle(68, 132, 15, 7, red);
+          it.printf(85, 127, id(my_font_5), red, "Relay Off");
+          }
+          if (id(mv1_on).state) {
+          it.filled_rectangle(145, 132, 15, 7, green);
+          it.printf(165, 127, id(my_font_5), green, "MV1 Open");
+          } else if (id(mv1_off).state) { 
+          it.filled_rectangle(145, 132, 15, 7, red);
+          it.printf(165, 127, id(my_font_5), red, "MV1 Closed");
+          } else if (id(${enc_id}_dpdt1).state) { 
+          it.filled_rectangle(145, 132, 15, 7, blue);
+          it.printf(165, 127, id(my_font_5), blue, "Opening");
+          } else {
+          it.filled_rectangle(145, 132, 15, 7, blue);
+          it.printf(165, 127, id(my_font_5), blue, "Closing");
+          }
+
+
+          if (id(${enc_id}_dpdt2).state) {
+          it.filled_rectangle(68, 167, 15, 7, green);
+          it.printf(85, 162, id(my_font_5), green, "Relay On");
+          } else {
+          it.filled_rectangle(68, 167, 15, 7, red);
+          it.printf(85, 162, id(my_font_5), red, "Relay Off");
+          }
+          if (id(mv2_on).state) {
+          it.filled_rectangle(145, 167, 15, 7, green);
+          it.printf(165, 162, id(my_font_5), green, "MV2 Open");
+          } else if (id(mv2_off).state) { 
+          it.filled_rectangle(145, 167, 15, 7, red);
+          it.printf(165, 162, id(my_font_5), red, "MV2 Closed");
+          } else if (id(${enc_id}_dpdt2).state) { 
+          it.filled_rectangle(145, 167, 15, 7, blue);
+          it.printf(165, 162, id(my_font_5), blue, "Opening");
+          } else {
+          it.filled_rectangle(145, 167, 15, 7, blue);
+          it.printf(165, 162, id(my_font_5), blue, "Closing");
+          }
+          it.filled_rectangle(0, 185, 240, 5, blue);
+        
+
+
+
+
+
+            auto multiplier_valve = id(${enc_id}_lawn_sprinkler_ctrlr).multiplier();
+            it.printf(85, 195, id(my_font_3),yellow, "Multiplier -  %.1f ", multiplier_valve);
+
+          if (id(active_valve).state) {
+             it.printf(75, 212, id(my_font_2m), id(my_green), "Zone On -  %.0f ", id(active_valve).state);
+             }else{
+              it.printf(95, 212, id(my_font_2m), id(my_red), "All Off");
+             }
+
+
+
+
+          if (id(lawn_sprinkler_valve_sw0).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "L. Front Ctr");
+            }
+          if (id(lawn_sprinkler_valve_sw1).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "L. Front Road");
+            }
+          if (id(lawn_sprinkler_valve_sw2).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "L. Front Shed");
+            }
+          if (id(lawn_sprinkler_valve_sw3).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "L. Rear Shed");
+            }
+          if (id(lawn_sprinkler_valve_sw4).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "L. Rear Cor.");
+            }
+          if (id(lawn_sprinkler_valve_sw5).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "L. Rear House");
+            }
+          if (id(lawn_sprinkler_valve_sw6).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "R. Front Road");
+            }
+          if (id(lawn_sprinkler_valve_sw7).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "R. Front Ctr");
+            }
+          if (id(lawn_sprinkler_valve_sw8).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "R. Front House");
+            }
+          if (id(lawn_sprinkler_valve_sw9).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "R. Rear House");
+            }
+          if (id(lawn_sprinkler_valve_sw10).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "R. Rear Fence");
+            }
+          if (id(lawn_sprinkler_valve_sw11).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "R. Side House");
+            }
+
+          if (id(lawn_sprinkler_valve_sw16).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "Drip 1");
+            }
+
+          if (id(lawn_sprinkler_valve_sw17).state) {
+            it.printf(70, 233, id(my_font_2), id(my_green), "Drip 2");
+            }
+          
+
+          if (id(${enc_id}_lawn_sprinkler_ctrlr).time_remaining_active_valve().value() > 0) {
+            it.printf(75, 252, id(my_font_2m), yellow,"%2d m %2d s", id(${enc_id}_lawn_sprinkler_ctrlr).time_remaining_active_valve().value() / 60, id(${enc_id}_lawn_sprinkler_ctrlr).time_remaining_active_valve().value() % 60);
+           } else {
+              it.printf(75, 252, id(my_font_2), id(my_blue), "Valves Idle");
+           }
+
+
+          it.rectangle(0, 193, 53, 38, yellow);
+          it.filled_rectangle(0, 195, 50, 35, blue);
+          it.printf(10, 197, id(my_font_10m), white, "Start");
+          it.printf(10, 212, id(my_font_10m), white, "Cycle");
+
+
+          it.rectangle(0, 233, 53, 38, yellow);
+          it.filled_rectangle(0, 235, 50, 35, blue);
+          it.printf(10, 237, id(my_font_10m), white, "Test");
+          it.printf(10, 252, id(my_font_10m), white, "Mains");
+
+
+
+          it.rectangle(187, 193, 53, 38, yellow);
+          it.filled_rectangle(190, 195, 50, 35, blue);
+          it.printf(200, 197, id(my_font_10m), white, " CPU");
+          it.printf(200, 212, id(my_font_10m), white, "Reset");
+
+          it.rectangle(187, 233, 53, 38, yellow);
+          it.filled_rectangle(190, 235, 50, 35, blue);
+          it.printf(200, 237, id(my_font_10m), white, "OLED");
+          it.printf(200, 252, id(my_font_10m), white, "Toggle");
+
+
+
+
+          it.filled_rectangle(0, 275, 240, 5, blue);
+
+
+
+
+         
+          it.printf(5, 285, id(my_font_3),  "CPU°- %.1f° C", id(internal_cpu).state);         
+          it.printf(120, 285, id(my_font_3), "SSID:%s", id(myssid_2).state.c_str());
+          it.printf(5, 300, id(my_font_3), "Signal:%.1f dbm", id(my_wifi_2).state);        
+          it.printf(120, 300, id(my_font_3), "IP:%s", id(myip_2).state.c_str());  
+# ------------------------------------------------------
+# ------------------------------------------------------
+  - platform: ssd1306_i2c
+    model: "SSD1306 128x64"
+    i2c_id: multiplex0channel3
+    id: my_display_2
+    address: 0x3C
+    pages:
+      - id: page1_1
+        lambda: |-
+          it.printf(0, 0, id(my_font_3), "12V Valve Power");
+          it.printf(0, 15, id(my_font_3), "Valve-Cur: %.3f A", id(${enc_id}_ina219_current1).state);
+          it.printf(0, 30, id(my_font_3), "Valve Bus: %.3f V", id(${enc_id}_ina219_bus_v1).state);
+          it.printf(0, 45, id(my_font_3), "Valve PWR: %.3f W", id(${enc_id}_ina219_power1).state);
+
+
+  - platform: ssd1306_i2c
+    model: "SSD1306 128x64"
+    i2c_id: multiplex0channel4
+    id: my_display_3
+    rotation: 180
+    address: 0x3C
+    pages:
+      - id: page2_1
+        lambda: |-
+          it.printf(0, 0, id(my_font_3), "5V USB Power");
+          it.printf(0, 15, id(my_font_3), "AMPS: %.3f A", id(${enc_id}_ina219_current0).state);
+          it.printf(0, 30, id(my_font_3), "Bus: %.3f V", id(${enc_id}_ina219_bus_v0).state);
+          it.printf(0, 45, id(my_font_3), "PWR: %.3f W", id(${enc_id}_ina219_power0).state);
