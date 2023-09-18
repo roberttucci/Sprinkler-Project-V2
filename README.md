@@ -60,4 +60,9 @@ I also used board to wire disconnects to detach the cover if I want. but you do 
 ![image](https://github.com/roberttucci/Sprinkler-Project-V2/assets/88236450/cb6379f6-dcff-4ee2-9a70-21d18ec6385a)
 
 
+![image](https://github.com/roberttucci/Sprinkler-Project-V2/assets/88236450/9224b2eb-c09b-4dfb-8bc9-1e8758a8560b)
+
+![image](https://github.com/roberttucci/Sprinkler-Project-V2/assets/88236450/3b0fc4b7-f875-489c-bdde-dc783c72fb7f)
+
+
 
