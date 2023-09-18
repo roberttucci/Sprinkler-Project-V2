@@ -1,0 +1,1097 @@
+type: custom:stack-in-card
+title: null
+mode: vertical
+background: true
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: binary_sensor.sprinkler_enclosure_12v_4
+        name: Spr-Enc12v
+        size: 20px
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+            height: 35px !important;
+            --icon-size: 30px;
+           }
+      - type: custom:mushroom-entity-card
+        entity: sensor.esp32_enc12v_4_esp32_12v_4_internal_temperature
+        name: Internal Temp
+        icon: mdi:cpu-64-bit
+        size: 20px
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+            height: 35px !important;
+            --icon-size: 30px;
+           }
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.enc12v_4_valve_time_convert
+        name: ' Valve Time'
+        icon: mdi:clock
+        size: 20px
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+            height: 35px !important;
+            --icon-size: 30px;
+           }        
+      - type: custom:mushroom-entity-card
+        entity: sensor.esp32_enc12v_4_esp32_12v_4_irrigation_active_valve
+        name: Active Valve
+        icon: mdi:pipe-valve
+        size: 20px
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+            height: 35px !important;
+            --icon-size: 30px;
+           }
+      - type: custom:mushroom-entity-card
+        entity: button.esp32_enc12v_4_esp32_restart
+        name: Restart CPU
+        size: 20px
+        tap_action:
+          action: toggle
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+            height: 35px !important;
+            --icon-size: 30px;
+           }
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        entity: binary_sensor.esp32_enc12v_4_esp32_12v_4_mv1_off
+        name: MV1Off
+        secondary_info: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 8px;
+            height: 35px !important;
+            --icon-size: 30px;
+           }
+        styles:
+          card:
+            - font-size: 10px
+            - height: 30px
+      - type: custom:button-card
+        entity: binary_sensor.esp32_enc12v_4_esp32_12v_4_mv1_on
+        name: MV1On
+        secondary_info: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 8px;
+            height: 35px !important;
+            --icon-size: 30px;
+           }
+        styles:
+          card:
+            - font-size: 10px
+            - height: 30px
+      - type: custom:button-card
+        entity: binary_sensor.esp32_enc12v_4_esp32_12v_4_mv2_off
+        name: MV2Off
+        secondary_info: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 8px;
+            height: 35px !important;
+            --icon-size: 30px;
+           }
+        styles:
+          card:
+            - font-size: 10px
+            - height: 30px
+      - type: custom:button-card
+        entity: binary_sensor.esp32_enc12v_4_esp32_12v_4_mv2_on
+        name: MV2On
+        secondary_info: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 8px;
+            height: 35px !important;
+            --icon-size: 30px;
+           }
+        styles:
+          card:
+            - font-size: 10px
+            - height: 30px
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        layout: icon_name_state2nd
+        entity: sensor.esp32_enc12v_4_ina219_bus_voltage_esp32_12v_4_0
+        name: USB V
+        icon: mdi:sine-wave
+        show_state: true
+        styles:
+          card:
+            - font-size: 10px
+            - height: 30px
+      - type: custom:button-card
+        layout: icon_name_state2nd
+        entity: sensor.esp32_enc12v_4_ina219_power_esp32_12v_4_0
+        name: USB W
+        show_state: true
+        styles:
+          card:
+            - font-size: 10px
+            - height: 30px
+      - type: custom:button-card
+        layout: icon_name_state2nd
+        entity: sensor.esp32_enc12v_4_ina219_bus_voltage_esp32_12v_4_1
+        name: Valve- V
+        icon: mdi:sine-wave
+        show_state: true
+        styles:
+          card:
+            - font-size: 10px
+            - height: 30px
+      - type: custom:button-card
+        layout: icon_name_state2nd
+        entity: sensor.esp32_enc12v_4_ina219_power_esp32_12v_4_1
+        name: Valve- W
+        show_state: true
+        styles:
+          card:
+            - font-size: 10px
+            - height: 30px
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: entity
+            entity: sensor.esp32_enc12v_4_esp32_12v_4_esp_ip_address
+            icon_color: green
+            card_mod: null
+            style: |
+              ha-card {
+               font-size: 2rem !important;
+               }
+        alignment: center
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: entity
+            entity: sensor.esp32_enc12v_4_esp32_12v_4_esp_connected_ssid
+            icon_color: green
+        alignment: center
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: entity
+            entity: sensor.esp32_enc12v_4_esp32_12v_4_wifi_signal_sensor
+            icon_color: green
+        alignment: center
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_lawn_sprinklers
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+            height: 40px !important;
+            --icon-size: 30px;
+           }
+        name: Sprinkler Control
+        tap_action:
+          action: toggle
+        icon: mdi:sprinkler-variant
+        icon_color: red
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_controller_multiplier
+        name: Multiplier
+        min: 1
+        max: 4
+        step: 1
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:30% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:8px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+              --column-width: 60px;
+            }
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: switch.esp32_enc12v_4_enc12v_lawn_sprinklers_auto_advance
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+             --icon-size: 30px;
+           }
+        icon: mdi:arrow-right-bold
+        tap_action:
+          action: toggle
+        name: Auto Advance
+      - type: custom:mushroom-entity-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_lawn_sprinklers_reverse
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+             --icon-size: 30px;
+           }
+        icon: mdi:arrow-left-bold
+        hold_action:
+          action: toggle
+        name: Reverse
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_1
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: LF Center
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_1
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+              --column-width: 60px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_1
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Left Front Center
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_2
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: LF Road
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_2
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+              --column-width: 60px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_2
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Left Front Road
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_3
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: LF Shed
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_3
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+              --column-width: 60px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_3
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Left Front Shed
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_4
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: LR Shed
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_4
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_4
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Left Rear Shed
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_5
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: LR Corner
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_5
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_5
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Left Rear Corner
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_6
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: LR House
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_6
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_6
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Left Rear House
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_7
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: RF Road
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_7
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_7
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Right Front Road
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_8
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: RF Center
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_8
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_8
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Right Front Center
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_9
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: RF House
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_9
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_9
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Right Front House
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_10
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: RR House
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_10
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_10
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Right Rear House
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_11
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: R Fence
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_11
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_11
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Rear Fence
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_12
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: R Side
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_12
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_12
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Right Side
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_13
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: V-13
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_13
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_13
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: V-13
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_14
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: V-14
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_14
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_14
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: V-14
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_15
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: V-15
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_15
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_15
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: V-15
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_16
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: V-16
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_16
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_16
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: V-16
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_17
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: Drip 1
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_17
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_17
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Drip 1
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
+  - type: horizontal-stack
+    cards:
+      - type: custom:numberbox-card
+        border: true
+        entity: number.esp32_enc12v_4_esp32_12v_4_sprinkler_valve_duration_18
+        initial: 300
+        min: 300
+        max: 1200
+        step: 60
+        name: Drip 2
+        toggle_entity: switch.esp32_enc12v_4_esp32_12v_4_enable_front_lawn_18
+        icon_plus: mdi:chevron-up
+        icon_minus: mdi:chevron-down
+        style: |
+          .cur-num{font-size:10px !important}
+          .cur-num.upd{color:red}
+          .cur-unit{color:white; font-size:40% !important; opacity:1 !important}
+          .grid-left{color:white; font-size:10px !important}
+          .grid-right{color:white}
+          .cur-box ha-icon{transform:scale(.5)}
+           ha-card {
+              height: 40px !important;
+              --paper-font-body1_-_font-size:10px;
+            }
+      - type: custom:button-card
+        entity: switch.esp32_enc12v_4_esp32_12v_4_front_lawn_18
+        tap_action: none
+        style: |
+          ha-card {
+            --card-primary-font-size: 10px;
+             height: 40px !important;
+           }
+        state:
+          - color: red
+            icon: mdi:sprinkler
+            styles:
+              card:
+                - animation: blink 2s ease infinite
+            value: 'on'
+        name: Drip 2
+        size: 20px
+        icon: mdi:sprinkler
+        styles:
+          card:
+            - height: 50px
+            - font-size: 8px
+            - height: 55px
