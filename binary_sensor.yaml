@@ -1,0 +1,5 @@
+  - platform: ping
+    host: [esp32_IP_address]
+    name: [enclosure_name]
+    count: 5
+    scan_interval: 30 
