@@ -25,7 +25,7 @@ Approximate Bill of Materials:
 
 2 SSD1306 .96 OLED
 
-1 3.2" SPI ILI9341 Display
+1 3.2" SPI ILI9341 Display with touch
 
 1 BME280 sensor
 
